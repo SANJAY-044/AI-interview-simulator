@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Interview Pro Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar-nav">
+            <div class="logo">
+                <i class="ri-robot-2-line"></i>
+                <span>InterviewAI</span>
+            </div>
+            <ul class="nav-links">
+                <li class="active" data-target="view-dashboard"><i class="ri-dashboard-line"></i> Dashboard</li>
+                <li data-target="view-history"><i class="ri-history-line"></i> History</li>
+                <li data-target="view-analytics"><i class="ri-bar-chart-box-line"></i> Analytics</li>
+                <li data-target="view-settings"><i class="ri-settings-4-line"></i> Settings</li>
+            </ul>
+            <div class="user-profile">
+                <img src="https://ui-avatars.com/api/?name=User&background=6366f1&color=fff" alt="User">
+                <div class="user-info">
+                    <h5>Candidate</h5>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Topbar -->
+            <header class="topbar">
+                <div class="page-title">
+                    <h2 id="topbar-title">Interview Dashboard</h2>
+                    <p id="topbar-subtitle">Master your next technical interview.</p>
+                </div>
+                <div class="topbar-actions" id="topbar-actions">
+                    <div class="role-config">
+                        <input type="text" id="role" value="Software Engineer" placeholder="Target Role">
+                        <select id="experience">
+                            <option value="Entry Level">Entry Level</option>
+                            <option value="Mid Level" selected>Mid Level</option>
+                            <option value="Senior">Senior</option>
+                        </select>
+                        <button id="startBtn" class="btn btn-primary"><i class="ri-play-circle-line"></i> Start Session</button>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dashboard View -->
+            <div id="view-dashboard" class="view-section active view-grid">
+                <!-- Stats Row -->
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="ri-question-answer-line"></i></div>
+                    <div class="stat-details">
+                        <h3>Questions</h3>
+                        <h2 id="stat-questions">0</h2>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon avg-icon"><i class="ri-star-line"></i></div>
+                    <div class="stat-details">
+                        <h3>Avg Score</h3>
+                        <h2 id="stat-score">0.0<span class="max-score">/10</span></h2>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon streak-icon"><i class="ri-fire-line"></i></div>
+                    <div class="stat-details">
+                        <h3>Session Status</h3>
+                        <h2 id="stat-status">Ready</h2>
+                    </div>
+                </div>
+
+                <!-- Chat Area -->
+                <div class="chat-section">
+                    <div class="section-header">
+                        <h3><i class="ri-message-3-line"></i> Interview Simulator</h3>
+                    </div>
+                    <div id="chatHistory" class="chat-messages">
+                        <div class="empty-state">
+                            <i class="ri-terminal-window-line"></i>
+                            <h4>Ready when you are</h4>
+                            <p>Configure your role at the top and hit Start Session.</p>
+                        </div>
+                    </div>
+                    <div class="chat-input-wrapper">
+                        <textarea id="answerInput" placeholder="Type your answer here..." disabled></textarea>
+                        <button id="sendBtn" class="btn btn-send" disabled><i class="ri-send-plane-fill"></i></button>
+                    </div>
+                </div>
+
+                <!-- Analytics Area -->
+                <div class="analytics-section">
+                    <div class="section-header">
+                        <h3><i class="ri-line-chart-line"></i> Performance</h3>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="scoreChart"></canvas>
+                    </div>
+                    <div class="feedback-summary">
+                        <h4>Latest Score</h4>
+                        <div class="score-display">
+                            <span id="latest-score">-</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- History View -->
+            <div id="view-history" class="view-section view-block">
+                <div class="history-container" id="historyList">
+                    <div class="empty-state">
+                        <i class="ri-history-line"></i>
+                        <h4>No history yet</h4>
+                        <p>Complete some interview questions to see your history here.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analytics View -->
+            <div id="view-analytics" class="view-section view-block">
+                 <div class="analytics-large-container">
+                    <div class="analytics-card">
+                        <h3>Session Score Overview</h3>
+                        <p class="help-text" style="margin-bottom:1rem;">Your score over the span of this active session.</p>
+                        <canvas id="largeScoreChart" style="max-height: 400px;"></canvas>
+                    </div>
+                 </div>
+            </div>
+
+            <!-- Settings View -->
+            <div id="view-settings" class="view-section view-block">
+                <div class="settings-container">
+                    <div class="settings-card">
+                        <div class="settings-header">
+                            <h3><i class="ri-key-2-line"></i> API Configuration</h3>
+                        </div>
+                        <div class="settings-body">
+                            <div class="form-group-vertical">
+                                <label for="apiKeyInput">Google Gemini API Key</label>
+                                <input type="password" id="apiKeyInput" placeholder="AIzaSy...">
+                                <p class="help-text">Get your API key from <a href="https://aistudio.google.com/" target="_blank">Google AI Studio</a>.</p>
+                            </div>
+                            <button id="saveSettingsBtn" class="btn btn-primary"><i class="ri-save-line"></i> Save Settings</button>
+                            <div id="settingsMsg" class="alert success" style="display: none;"><i class="ri-check-line"></i> Settings saved successfully!</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="/static/script.js"></script>
+</body>
+</html>
