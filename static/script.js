@@ -1,3 +1,7 @@
+// Set this to your Render URL when deploying (e.g., 'https://my-app.onrender.com')
+// Leave it as an empty string '' when running locally.
+const BACKEND_URL = '';
+
 let currentQuestion = null;
 let questionsAsked = [];
 let scores = [];
@@ -200,7 +204,7 @@ elements.saveSettingsBtn.addEventListener('click', async () => {
     elements.saveSettingsBtn.innerHTML = '<i class="ri-loader-4-line ri-spin"></i> Saving...';
     
     try {
-        const res = await fetch('/api/settings', {
+        const res = await fetch(BACKEND_URL + '/api/settings', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({ api_key })
@@ -249,7 +253,7 @@ elements.startBtn.addEventListener('click', async () => {
     showTyping();
     
     try {
-        const response = await fetch('/api/start', {
+        const response = await fetch(BACKEND_URL + '/api/start', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ role: elements.roleInput.value, experience_level: elements.experienceInput.value })
@@ -313,7 +317,7 @@ async function handleSend() {
     showTyping();
     
     try {
-        const response = await fetch('/api/chat', {
+        const response = await fetch(BACKEND_URL + '/api/chat', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
